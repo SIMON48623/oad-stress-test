@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+title: "OAD Stress Test: Transition-Conditioned Reliability in Causal Video Recognition"
+type: software
+authors:
+  - family-names: Wu
+    given-names: Yuzhang
+repository-code: "https://github.com/SIMON48623/oad-stress-test"
+url: "https://github.com/SIMON48623/oad-stress-test"
+version: 1.0.0
+date-released: 2026-08-22
+license: MIT
+keywords:
+  - online action detection
+  - causal video recognition
+  - temporal transitions
+  - calibration
+  - reliability
+abstract: >-
+  Evaluation code, frozen protocols, tests, and processed summaries for
+  diagnosing cases in which temporal smoothing improves aggregate metrics
+  while delaying or missing action transitions.

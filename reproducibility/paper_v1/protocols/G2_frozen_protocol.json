@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "frozen_at_local_date": "2026-08-21",
+  "gate": "G2_diagnostic_nonredundancy",
+  "input_prediction_cache": "derived_outputs/G1/run_causal_gru_v1/frozen_predictions.npz",
+  "input_cache_sha256": "2a80493f25c7d449c481efa6951a0f65c3ce64fffd983e7e1906bf72a53655ad",
+  "question": "Does PTSM retain probability-level information when discrete argmax transition delay is held fixed?",
+  "comparisons": {
+    "baseline_alpha": 0.0,
+    "primary_alpha": 0.5,
+    "predeclared_sensitivity_alpha": 0.25
+  },
+  "transition_unit": {
+    "event_id": "video_id plus ground-truth transition frame",
+    "primary_event_ptsm": "mean max(p_old - p_new, 0) over the eligible post-transition window",
+    "delay": "first argmax prediction of the new class; a miss is coded as the horizon",
+    "primary_equal_delay_subset": "paired events at horizon 16 where raw and EMA 0.50 have the same detected delay in 0..15",
+    "missed_events": "excluded from the primary equal-delay test because delay=16 is right-censored; included as a named sensitivity subset"
+  },
+  "primary_test": {
+    "estimand": "event-weighted mean paired PTSM difference, EMA 0.50 minus raw, among exactly equal detected-delay events",
+    "resampling_unit": "video",
+    "bootstrap_repetitions": 2000,
+    "seed": 48624,
+    "minimum_events": 500,
+    "minimum_videos": 30,
+    "pass_rule": "lower endpoint of the paired video-cluster 95% percentile CI is above zero"
+  },
+  "bounded_sensitivity_checks": {
+    "transition_types": [
+      "background_to_action",
+      "action_to_background",
+      "action_to_action"
+    ],
+    "transition_type_pass_rule": "PTSM difference CI is above zero for at least two types with at least 100 events",
+    "horizons_frames": [
+      8,
+      16,
+      32
+    ],
+    "horizon_pass_rule": "all three PTSM difference CIs are above zero",
+    "ece_bins": [
+      10,
+      15,
+      20,
+      30
+    ],
+    "ece_pass_rule": "all global-ECE difference CIs are below zero",
+    "individual_delay_strata": "descriptive only; no single selected stratum may carry the gate"
+  },
+  "overall_gate": "primary equal-delay test passes, at least two transition types pass, all horizon directions pass, and all ECE-bin directions pass",
+  "failure_action": "If the primary equal-delay test fails, PTSM is downgraded to a descriptive probability statistic. No revised metric may be invented. Other ranking-inversion claims remain evaluated independently.",
+  "anti_p_hacking_rules": [
+    "the pooled exact-delay subset is the only primary nonredundancy test",
+    "individual delay strata are descriptive and may not replace the pooled test",
+    "alpha 0.25 may be reported as sensitivity but may not rescue a failed alpha 0.50 primary test",
+    "horizons and ECE bin counts are fixed before analysis",
+    "resampling is paired by video, never by transition or frame"
+  ],
+  "required_outputs": [
+    "transition_level_statistics.csv",
+    "paired_transition_deltas.csv",
+    "equal_delay_summary.csv",
+    "individual_delay_strata.csv",
+    "transition_type_summary.csv",
+    "horizon_sensitivity.csv",
+    "ece_bin_sensitivity.csv",
+    "bootstrap_samples.npz",
+    "metadata.json",
+    "gate_G2.md"
+  ]
+}

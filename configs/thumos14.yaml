@@ -1,0 +1,22 @@
+dataset:
+  name: thumos14
+  root: data/thumos14
+  feature_dir: data/thumos14/features
+  annotation_dir: data/thumos14/annotations
+  split_dir: data/thumos14/splits
+  train_split_file: data/thumos14/splits/train.txt
+  split_file: data/thumos14/splits/test.txt
+  train_split: train.txt
+  test_split: test.txt
+  num_classes: null  # set after inspecting features/labels
+  background_label: 0
+  feature_fps: null  # required when annotations use start_time/end_time instead of start_idx/end_idx
+  end_idx_inclusive: true
+
+evaluation:
+  stable_steps: 3
+  confidence_thresholds: [0.50, 0.60, 0.70, 0.80, 0.90]
+  budgets: [0.10, 0.25, 0.50, 1.00]
+
+output:
+  results_dir: results/thumos14

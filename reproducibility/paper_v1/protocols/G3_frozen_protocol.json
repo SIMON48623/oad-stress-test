@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "frozen_at_local_date": "2026-08-21",
+  "gate": "G3_analytical_counterexample",
+  "claim": "There exists a causal binary step-transition setting in which EMA lowers standard fixed-bin global ECE without lowering accuracy, while increasing discrete transition delay.",
+  "construction": {
+    "ground_truth": [
+      0,
+      0,
+      1,
+      1,
+      1
+    ],
+    "raw_probability_of_class_1": [
+      0.04,
+      0.71,
+      0.565,
+      0.565,
+      0.565
+    ],
+    "ema_alpha": 0.5,
+    "argmax_tie_rule": "class 0 at exact probability 0.5",
+    "primary_ece_bins": 15,
+    "numerical_ece_bin_sensitivity": [
+      10,
+      15,
+      20,
+      30
+    ]
+  },
+  "open_parameter_box": {
+    "low_pretransition_probability_l": [
+      0.039,
+      0.041
+    ],
+    "isolated_false_spike_g": [
+      0.709,
+      0.711
+    ],
+    "posttransition_probability_h": [
+      0.564,
+      0.566
+    ],
+    "ema_alpha_a": [
+      0.499,
+      0.501
+    ]
+  },
+  "analytical_requirements": [
+    "derive EMA states s1 through s4",
+    "prove s1 < 0.5, s2 < 0.5, and s3 > 0.5 throughout the parameter box",
+    "prove the 15-bin confidence assignments remain fixed throughout the box",
+    "derive raw and smoothed 15-bin ECE formulas under those assignments",
+    "prove the lower bound of raw ECE exceeds the upper bound of smoothed ECE throughout the box"
+  ],
+  "numerical_requirements": [
+    "verify the center construction exactly using rational arithmetic",
+    "verify lower ECE at 10, 15, 20, and 30 bins",
+    "verify equal accuracy and delay 0 versus delay 1",
+    "enumerate a bounded grid inside the open box as a computational cross-check"
+  ],
+  "scope_boundary": "This is an existence counterexample and mechanism illustration, not a universal theorem that EMA always improves ECE or always worsens delay.",
+  "failure_action": "If the exact construction or interval proof fails, retain only a labeled toy illustration and do not expand theoretical scope.",
+  "required_outputs": [
+    "analytic_counterexample.md",
+    "counterexample_values.csv",
+    "bin_sensitivity.csv",
+    "neighborhood_grid_summary.csv",
+    "metadata.json",
+    "gate_G3.md"
+  ]
+}

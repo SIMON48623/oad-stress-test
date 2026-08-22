@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "frozen_at_local_date": "2026-08-21",
+  "gate": "G1_confirmatory_ranking_inversion",
+  "dataset": "THUMOS14 test split",
+  "expected_videos": 211,
+  "predictor": {
+    "family": "causal_gru",
+    "checkpoint": "${PROJECT_ROOT}/.cache/classifiers/b9aa24058d81d951b8f9bafbab7fc583c550508719e7a020270bf6d01acafd83.pkl"
+  },
+  "inputs": {
+    "project_src": "${PROJECT_ROOT}/src",
+    "feature_dir": "${PROJECT_ROOT}/data/thumos14/features",
+    "split_file": "${PROJECT_ROOT}/data/thumos14/splits/test.txt",
+    "annotation_dir": "${PROJECT_ROOT}/data/thumos14/annotations"
+  },
+  "comparisons": {
+    "baseline_alpha": 0.0,
+    "primary_alpha": 0.5,
+    "predeclared_sensitivity_alpha": 0.25,
+    "rule": "Evaluate alpha 0.50 first. Alpha 0.25 may carry the gate only if alpha 0.50 fails. No other alpha may carry G1."
+  },
+  "metrics": {
+    "primary_pair": [
+      "global_ece",
+      "ptsm"
+    ],
+    "performance_guardrail": "accuracy",
+    "responsiveness": [
+      "mean_transition_delay",
+      "missed_transition_rate"
+    ],
+    "descriptive_stability": [
+      "mean_tfi",
+      "mean_predicted_switches"
+    ]
+  },
+  "metric_parameters": {
+    "ece_bins": 15,
+    "post_transition_horizon_frames": 16,
+    "accuracy_noninferiority_margin": -0.002,
+    "ptsm_definition": "mean max(p_old - p_new, 0) across eligible frames in the causal post-transition window",
+    "miss_definition": "no argmax prediction of the new label before the earlier of the next ground-truth transition and the 16-frame horizon",
+    "miss_delay_value": 16
+  },
+  "resampling": {
+    "unit": "video",
+    "paired": true,
+    "repetitions": 2000,
+    "seed": 48623,
+    "interval": "two-sided percentile 95%",
+    "aggregation": {
+      "accuracy": "micro over sampled video clusters",
+      "global_ece": "reconstructed from sampled per-video fixed-bin counts, correct sums, and confidence sums",
+      "mean_tfi": "macro mean over sampled video clusters",
+      "mean_predicted_switches": "macro mean over sampled video clusters",
+      "mean_transition_delay": "micro mean over transition events in sampled video clusters",
+      "ptsm": "micro mean over eligible post-transition frames in sampled video clusters",
+      "missed_transition_rate": "micro mean over transition events in sampled video clusters"
+    }
+  },
+  "gate_logic": {
+    "global_ece": "upper endpoint of CI for smoothed-minus-raw is below 0",
+    "ptsm": "lower endpoint of CI for smoothed-minus-raw is above 0",
+    "accuracy": "lower endpoint of CI for smoothed-minus-raw is at least -0.002",
+    "responsiveness": "lower endpoint for delay or missed-transition-rate difference is above 0",
+    "overall": "all four conditions pass for alpha 0.50, or for alpha 0.25 only after alpha 0.50 fails"
+  },
+  "anti_leakage_rules": [
+    "predictions at frame t may use frames no later than t",
+    "pilot point estimates are not treated as confidence intervals",
+    "alpha, horizon, ECE bins, seed, resampling unit, and noninferiority margin are frozen before the confirmatory run",
+    "frame-level bootstrap is forbidden",
+    "no post-result alpha search is permitted"
+  ],
+  "required_outputs": [
+    "frozen_predictions.npz",
+    "per_video_statistics.csv",
+    "statistics_schema.json",
+    "point_estimates.csv",
+    "bootstrap_deltas.csv",
+    "bootstrap_samples.npz",
+    "leave_one_video_out_deltas.csv",
+    "metadata.json",
+    "gate_G1.md"
+  ]
+}

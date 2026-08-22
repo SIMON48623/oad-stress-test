@@ -1,0 +1,41 @@
+{
+  "row_unit": "video x ema_alpha",
+  "aggregation_contract": "rows are sampled as paired video clusters; ECE is reconstructed from bin sufficient statistics",
+  "base_fields": {
+    "video_id": "string cluster identifier",
+    "ema_alpha": "frozen EMA coefficient",
+    "n_frames": "frame denominator for micro accuracy",
+    "correct_sum": "correct-frame numerator",
+    "tfi": "per-video temporal fragmentation index",
+    "predicted_switches": "per-video count",
+    "transition_count": "eligible ground-truth transition count",
+    "delay_sum": "sum of transition delays; misses contribute the frozen horizon",
+    "missed_sum": "number of missed transitions",
+    "ptsm_sum": "sum of positive old-minus-new probability margins",
+    "ptsm_count": "eligible post-transition frame count",
+    "stale_old_label_frame_sum": "descriptive old-argmax frame count"
+  },
+  "ece_bin_fields": {
+    "bins": 15,
+    "pattern": "ece_bin_XX_{count,correct_sum,confidence_sum}",
+    "edges": [
+      0.0,
+      0.06666666666666667,
+      0.13333333333333333,
+      0.2,
+      0.26666666666666666,
+      0.3333333333333333,
+      0.4,
+      0.4666666666666667,
+      0.5333333333333333,
+      0.6,
+      0.6666666666666666,
+      0.7333333333333333,
+      0.8,
+      0.8666666666666667,
+      0.9333333333333333,
+      1.0
+    ],
+    "right_edge_rule": "confidence 1.0 belongs to the final bin"
+  }
+}

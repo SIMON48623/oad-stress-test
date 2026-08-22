@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.1",
+  "frozen_at_local_date": "2026-08-21",
+  "supersedes": "frozen_protocol.json for inference implementation only; no scientific result was generated under v1",
+  "preflight_deviation": {
+    "candidate": "vectorized batch adapter",
+    "observed_max_absolute_difference": 2.980232238769531e-07,
+    "frozen_tolerance": 1e-07,
+    "decision": "reject batch adapter; do not relax tolerance"
+  },
+  "gate": "G4_second_predictor_replication",
+  "dataset": "THUMOS14 test split",
+  "expected_videos": 211,
+  "predictor": {
+    "family": "linear_probe_multinomial_softmax",
+    "checkpoint": "${PROJECT_ROOT}/.cache/classifiers/94067e0ad5ee8efaffdfb1de52c4a0e115e8855f3665fb64a63b01bbe3f4b0bc.pkl",
+    "checkpoint_sha256": "8ea7202bedeefb307ba84043400890ccf6085aa74c063145b3c64dc85466490e",
+    "training": "none; reuse existing fitted checkpoint"
+  },
+  "inputs": {
+    "project_src": "${PROJECT_ROOT}/src",
+    "feature_dir": "${PROJECT_ROOT}/data/thumos14/features",
+    "split_file": "${PROJECT_ROOT}/data/thumos14/splits/test.txt",
+    "annotation_dir": "${PROJECT_ROOT}/data/thumos14/annotations"
+  },
+  "inference_equivalence": {
+    "selected_method": "original LinearProbeClassifier.predict_scores for every frame",
+    "reference_method": "original LinearProbeClassifier.predict_scores",
+    "expected_max_absolute_difference": 0.0,
+    "reason": "preserve the original 1e-7 tolerance after the batch candidate failed preflight"
+  },
+  "comparisons": {
+    "baseline_alpha": 0.0,
+    "primary_alpha": 0.5,
+    "predeclared_sensitivity_alpha": 0.25,
+    "horizon_frames": 16,
+    "ece_bins": 15
+  },
+  "resampling": {
+    "unit": "video",
+    "paired": true,
+    "repetitions": 2000,
+    "seed": 48625,
+    "interval": "two-sided percentile 95%",
+    "accuracy_noninferiority_margin": -0.002
+  },
+  "gate_logic": {
+    "global_ece": "upper CI endpoint for smoothed-minus-raw is below 0",
+    "mean_tfi": "upper CI endpoint for smoothed-minus-raw is below 0",
+    "accuracy": "lower CI endpoint is at least -0.002",
+    "responsiveness": "lower CI endpoint for delay or missed-transition-rate difference is above 0",
+    "primary": "all conditions pass for alpha 0.50",
+    "sensitivity": "alpha 0.25 may carry the gate only if alpha 0.50 fails",
+    "ptsm": "descriptive only; it does not carry G4"
+  },
+  "failure_action": "If neither frozen alpha passes, do not add a third similar predictor. Route to a bounded CCF-C case study or stop after evidence review.",
+  "required_outputs": [
+    "inference_equivalence.json",
+    "frozen_predictions.npz",
+    "per_video_statistics.csv",
+    "point_estimates.csv",
+    "bootstrap_deltas.csv",
+    "bootstrap_samples.npz",
+    "leave_one_video_out_deltas.csv",
+    "metadata.json",
+    "gate_G4.md"
+  ]
+}

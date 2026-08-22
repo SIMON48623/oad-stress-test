@@ -1,0 +1,6 @@
+time,ground_truth,raw_p_class1_fraction,raw_p_class1,ema_p_class1_fraction,ema_p_class1,raw_prediction,ema_prediction
+0,0,1/25,0.04,1/25,0.04,0,0
+1,0,71/100,0.71,3/8,0.375,1,0
+2,1,113/200,0.565,47/100,0.47,1,0
+3,1,113/200,0.565,207/400,0.5175,1,1
+4,1,113/200,0.565,433/800,0.54125,1,1

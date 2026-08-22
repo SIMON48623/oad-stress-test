@@ -1,0 +1,17 @@
+dataset:
+  name: dummy
+  root: data/dummy
+  feature_dir: data/dummy/features
+  split_dir: data/dummy/splits
+  train_split: train.txt
+  test_split: test.txt
+  num_classes: 4
+  background_label: 0
+
+evaluation:
+  stable_steps: 3
+  confidence_thresholds: [0.50, 0.60, 0.70, 0.80, 0.90]
+  budgets: [0.10, 0.25, 0.50, 1.00]
+
+output:
+  results_dir: results/dummy
