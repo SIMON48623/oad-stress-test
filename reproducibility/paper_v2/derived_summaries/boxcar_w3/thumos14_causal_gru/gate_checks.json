@@ -1,0 +1,10 @@
+{
+  "accuracy_noninferior": true,
+  "global_ece_improves": true,
+  "tfi_improves": true,
+  "delay_worsens": true,
+  "miss_rate_worsens": true,
+  "aggregate_prefers_boxcar": true,
+  "transition_prefers_native": true,
+  "full_ranking_inversion": true
+}

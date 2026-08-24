@@ -1,0 +1,26 @@
+{
+  "created_at_utc": "2026-08-23T11:16:12.481175+00:00",
+  "postprocessor": "causal_boxcar_probability_average",
+  "window": 3,
+  "left_initialization": "repeat p_0 for unavailable history",
+  "matched_primary_ema_alpha": 0.5,
+  "matching": {
+    "mean_kernel_age_timesteps": 1.0,
+    "sum_squared_weights": 0.3333333333333333
+  },
+  "ece_bins": 15,
+  "transition_horizon_feature_timesteps": 16,
+  "bootstrap_repetitions": 2000,
+  "accuracy_noninferiority_margin": -0.002,
+  "no_other_window_evaluated": true,
+  "inputs": {
+    "g1_cache": "${PRIVATE_INPUT_ROOT}/G1/frozen_predictions.npz",
+    "g1_cache_sha256": "2a80493f25c7d449c481efa6951a0f65c3ce64fffd983e7e1906bf72a53655ad",
+    "g4_cache": "${PRIVATE_INPUT_ROOT}/G4/frozen_predictions.npz",
+    "g4_cache_sha256": "e9ea588b9ec086c7ba05d4783743f65a87dc1b38a283800cf14ce1d3d8a9a4d6",
+    "ek100_model": "${PRIVATE_INPUT_ROOT}/G9_EK100/trained_model.pt",
+    "ek100_model_sha256": "a0acf9bd2a4d6d349aad71f264b63082680f8bc6ec534aff2c22e453d7451123",
+    "ek100_protocol": "${PRIVATE_INPUT_ROOT}/G9_EK100/frozen_protocol.json",
+    "ek100_protocol_sha256": "a18e212735b33edae19d9c3cdecf6b5f6da2ff669def4e0f48e1dd8a2a0014c2"
+  }
+}

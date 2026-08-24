@@ -1,0 +1,61 @@
+{
+  "conditions": [
+    "native",
+    "ema_alpha_0.50",
+    "boxcar_w3"
+  ],
+  "points": {
+    "native": {
+      "accuracy": 0.3815302485482487,
+      "global_ece": 0.40427600957653026,
+      "mean_tfi": 2.8551623488759215,
+      "mean_predicted_switches": 310.60869565217394,
+      "mean_transition_delay": 10.064168527327444,
+      "missed_transition_rate": 0.5948936996408116,
+      "n_timesteps": 189943.0,
+      "n_sequences": 138.0,
+      "n_transitions": 10301.0
+    },
+    "ema_alpha_0.50": {
+      "accuracy": 0.3826832260204377,
+      "global_ece": 0.3539184154462005,
+      "mean_tfi": 1.5590068015381076,
+      "mean_predicted_switches": 175.3695652173913,
+      "mean_transition_delay": 10.446946898359382,
+      "missed_transition_rate": 0.6172216289680613,
+      "n_timesteps": 189943.0,
+      "n_sequences": 138.0,
+      "n_transitions": 10301.0
+    },
+    "boxcar_w3": {
+      "accuracy": 0.37852934827816764,
+      "global_ece": 0.36692386305230973,
+      "mean_tfi": 1.4057712925250185,
+      "mean_predicted_switches": 158.82608695652175,
+      "mean_transition_delay": 10.554897582758956,
+      "missed_transition_rate": 0.6198427337151733,
+      "n_timesteps": 189943.0,
+      "n_sequences": 138.0,
+      "n_transitions": 10301.0
+    }
+  },
+  "gates": {
+    "ema_alpha_0.50": {
+      "accuracy_noninferior": true,
+      "global_ece_improves": true,
+      "tfi_improves": true,
+      "delay_worsens": true,
+      "miss_rate_worsens": true,
+      "full_ranking_inversion": true
+    },
+    "boxcar_w3": {
+      "accuracy_noninferior": false,
+      "global_ece_improves": true,
+      "tfi_improves": true,
+      "delay_worsens": true,
+      "miss_rate_worsens": true,
+      "full_ranking_inversion": false
+    }
+  },
+  "result_is_reported_without_checkpoint_or_parameter_substitution": true
+}

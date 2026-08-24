@@ -32,6 +32,8 @@ The frozen paper protocols record the expected conventions and hashes for the ex
 
 Access EPIC-KITCHENS-100 through the [official dataset portal](https://epic-kitchens.github.io/2021). The repository accepts locally prepared target arrays and RGB/flow feature files; use `scripts/inspect_ek100_replication_inputs.py` to verify their shapes and alignment before a run.
 
+The TeSTra audit in `reproducibility/paper_v2/testra_ek100/` uses the official TeSTra repository, its released Laplace checkpoint, the official RGB and TV-L1 optical-flow features, and official per-frame verb targets. These assets remain under their original providers' terms and must be stored outside this repository. The frozen protocol records expected file hashes, dimensions, split counts, and the exact current-output definition.
+
 ## TVSeries
 
 TVSeries is not redistributed. The public code includes schema and transition-audit utilities, but no dataset files or claim of a completed TVSeries replication.
@@ -39,4 +41,3 @@ TVSeries is not redistributed. The public code includes schema and transition-au
 ## Local-data rule
 
 Keep all downloaded or generated research data under ignored local directories. Before publishing a fork, inspect the tracked file list and Git history rather than relying only on `.gitignore`.
-

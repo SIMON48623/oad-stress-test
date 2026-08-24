@@ -1,0 +1,218 @@
+[
+  {
+    "instance": "thumos14_causal_gru",
+    "sequences": 211,
+    "frames": 334123,
+    "transitions": 5932,
+    "checks": {
+      "accuracy_noninferior": true,
+      "global_ece_improves": true,
+      "tfi_improves": true,
+      "delay_worsens": true,
+      "miss_rate_worsens": true,
+      "aggregate_prefers_boxcar": true,
+      "transition_prefers_native": true,
+      "full_ranking_inversion": true
+    },
+    "metrics": {
+      "accuracy": {
+        "native": 0.7183462377627401,
+        "boxcar": 0.7185976421856621,
+        "delta": 0.00025140442292204135,
+        "ci_low": -0.0005805620225627945,
+        "ci_high": 0.0011185077688230932,
+        "loo_min": 6.1018210884999924e-05,
+        "loo_max": 0.0003471635230758441
+      },
+      "global_ece": {
+        "native": 0.1189558354299729,
+        "boxcar": 0.11404342149836563,
+        "delta": -0.004912413931607268,
+        "ci_low": -0.006071266156453322,
+        "ci_high": -0.003802692043049925,
+        "loo_min": -0.005011929975085511,
+        "loo_max": -0.004686702264607059
+      },
+      "mean_tfi": {
+        "native": 2.5853558654978945,
+        "boxcar": 1.5253730950117808,
+        "delta": -1.0599827704861138,
+        "ci_low": -1.2066909639052412,
+        "ci_high": -0.9232821644419732,
+        "loo_min": -1.0650440503593144,
+        "loo_max": -1.036528906928204
+      },
+      "mean_predicted_switches": {
+        "native": 90.07582938388626,
+        "boxcar": 56.573459715639814,
+        "delta": -33.502369668246445,
+        "ci_low": -39.26078199052132,
+        "ci_high": -28.189336492890995,
+        "loo_min": -33.661904761904765,
+        "loo_max": -32.26666666666667
+      },
+      "mean_transition_delay": {
+        "native": 6.120532703978422,
+        "boxcar": 6.663351314902226,
+        "delta": 0.5428186109238036,
+        "ci_low": 0.4811828252340416,
+        "ci_high": 0.6032975454855453,
+        "loo_min": 0.533702039405461,
+        "loo_max": 0.5536150890674119
+      },
+      "missed_transition_rate": {
+        "native": 0.27899527983816585,
+        "boxcar": 0.30394470667565743,
+        "delta": 0.024949426837491573,
+        "ci_low": 0.01986994779464669,
+        "ci_high": 0.030368409827908515,
+        "loo_min": 0.023677843069478066,
+        "loo_max": 0.02567237163814179
+      }
+    }
+  },
+  {
+    "instance": "thumos14_linear_probe",
+    "sequences": 211,
+    "frames": 334123,
+    "transitions": 5932,
+    "checks": {
+      "accuracy_noninferior": true,
+      "global_ece_improves": true,
+      "tfi_improves": true,
+      "delay_worsens": true,
+      "miss_rate_worsens": true,
+      "aggregate_prefers_boxcar": true,
+      "transition_prefers_native": true,
+      "full_ranking_inversion": true
+    },
+    "metrics": {
+      "accuracy": {
+        "native": 0.656686310131299,
+        "boxcar": 0.6691457936149262,
+        "delta": 0.012459483483627243,
+        "ci_low": 0.010887782679715314,
+        "ci_high": 0.014031463816012845,
+        "loo_min": 0.012194489445374934,
+        "loo_max": 0.012625303478263517
+      },
+      "global_ece": {
+        "native": 0.18955956040472827,
+        "boxcar": 0.14652310988537898,
+        "delta": -0.04303645051934929,
+        "ci_low": -0.045772281914348505,
+        "ci_high": -0.04004383196937474,
+        "loo_min": -0.04339845473590287,
+        "loo_max": -0.042599799452694626
+      },
+      "mean_tfi": {
+        "native": 7.666832993417922,
+        "boxcar": 3.939759156743209,
+        "delta": -3.7270738366747125,
+        "ci_low": -4.266939394932035,
+        "ci_high": -3.237247734085047,
+        "loo_min": -3.7448218073255433,
+        "loo_max": -3.598872312376049
+      },
+      "mean_predicted_switches": {
+        "native": 231.37440758293837,
+        "boxcar": 124.01421800947867,
+        "delta": -107.3601895734597,
+        "ci_low": -123.92973933649286,
+        "ci_high": -92.32500000000003,
+        "loo_min": -107.87142857142858,
+        "loo_max": -103.26666666666668
+      },
+      "mean_transition_delay": {
+        "native": 4.772757923128793,
+        "boxcar": 5.545178691840863,
+        "delta": 0.7724207687120694,
+        "ci_low": 0.6798243947833326,
+        "ci_high": 0.8682389010494481,
+        "loo_min": 0.7524500907441016,
+        "loo_max": 0.7872860635696828
+      },
+      "missed_transition_rate": {
+        "native": 0.18762643290627107,
+        "boxcar": 0.23078219824679702,
+        "delta": 0.04315576534052595,
+        "ci_low": 0.03587517960451721,
+        "ci_high": 0.05044819302094801,
+        "loo_min": 0.04174228675136116,
+        "loo_max": 0.04435906391896613
+      }
+    }
+  },
+  {
+    "instance": "ek100_causal_gru",
+    "sequences": 133,
+    "frames": 284171,
+    "transitions": 16362,
+    "checks": {
+      "accuracy_noninferior": true,
+      "global_ece_improves": true,
+      "tfi_improves": true,
+      "delay_worsens": true,
+      "miss_rate_worsens": true,
+      "aggregate_prefers_boxcar": true,
+      "transition_prefers_native": true,
+      "full_ranking_inversion": true
+    },
+    "metrics": {
+      "accuracy": {
+        "native": 0.42455422967157097,
+        "boxcar": 0.42631021462429314,
+        "delta": 0.0017559849527221671,
+        "ci_low": 0.0002374771175005272,
+        "ci_high": 0.003158949986937492,
+        "loo_min": 0.001531701914986916,
+        "loo_max": 0.002256527680319087
+      },
+      "global_ece": {
+        "native": 0.257099774313624,
+        "boxcar": 0.2089150678970002,
+        "delta": -0.04818470641662381,
+        "ci_low": -0.05132135270125876,
+        "ci_high": -0.04497275621411626,
+        "loo_min": -0.04901124380150007,
+        "loo_max": -0.047333999788718883
+      },
+      "mean_tfi": {
+        "native": 3.342333653410505,
+        "boxcar": 1.752458537879537,
+        "delta": -1.5898751155309678,
+        "ci_low": -1.7515011653978176,
+        "ci_high": -1.4447253790276633,
+        "loo_min": -1.5986012069686895,
+        "loo_max": -1.5595040494725632
+      },
+      "mean_predicted_switches": {
+        "native": 611.9699248120301,
+        "boxcar": 328.42105263157896,
+        "delta": -283.5488721804511,
+        "ci_low": -344.77048872180455,
+        "ci_high": -227.04172932330832,
+        "loo_min": -285.6666666666667,
+        "loo_max": -269.6287878787879
+      },
+      "mean_transition_delay": {
+        "native": 7.620034225644787,
+        "boxcar": 8.685001833516685,
+        "delta": 1.064967607871898,
+        "ci_low": 0.9983461566616515,
+        "ci_high": 1.127133379591573,
+        "loo_min": 1.0561372524284085,
+        "loo_max": 1.07599352186371
+      },
+      "missed_transition_rate": {
+        "native": 0.4132746607994133,
+        "boxcar": 0.47481970419264147,
+        "delta": 0.061545043393228194,
+        "ci_low": 0.057343420214810675,
+        "ci_high": 0.06548116753194569,
+        "loo_min": 0.06105714646146082,
+        "loo_max": 0.062165192475395536
+      }
+    }
+  }
+]

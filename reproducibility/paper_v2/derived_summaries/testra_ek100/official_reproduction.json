@@ -1,0 +1,19 @@
+{
+  "metric": "EK100 overall mean top-5 verb recall",
+  "horizon_seconds": [
+    2.0,
+    1.0
+  ],
+  "values_percent": [
+    26.234370083476822,
+    30.76995422935509
+  ],
+  "published_gate_horizon_seconds": 1.0,
+  "published_value_percent": 30.8,
+  "tolerance_percentage_points": 0.5,
+  "validation_segments": 9668,
+  "early_segments_scored_as_uniform": 73,
+  "current_output_timesteps": 189943,
+  "reproduction_error_percentage_points": -0.030045770644910874,
+  "gate_pass": true
+}

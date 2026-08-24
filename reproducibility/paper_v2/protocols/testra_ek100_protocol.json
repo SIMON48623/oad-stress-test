@@ -1,0 +1,121 @@
+{
+  "protocol_version": "1.0.0",
+  "frozen_at_utc": "2026-08-23T00:00:00Z",
+  "objective": "Test whether the aggregate-transition ranking disagreement persists for one independently released modern Transformer checkpoint on the official EK100 validation split.",
+  "checkpoint": {
+    "method": "TeSTra Laplace",
+    "venue": "ECCV 2022",
+    "official_repository": "https://github.com/zhaoyue-zephyrus/TeSTra",
+    "official_google_drive_id": "1U59JD6U18OEe-5GXR_4RvccsySzJnXzv",
+    "file": "checkpoints/testra_ek100_laplace.pth",
+    "bytes": 2764734903,
+    "sha256": "7e7bacafa93128a10fad525d68e5ac2c470fe2830d0683b5cfcb1f682c93117a",
+    "inference_artifact": {
+      "file": "checkpoints/testra_ek100_laplace_inference_only.pth",
+      "bytes": 948890894,
+      "sha256": "568c9c3a51817f4d6ca68faa3b5ba8c43bf23622fed6940c8813e49f6bc758fe",
+      "construction": "torch.save of the original checkpoint epoch, source SHA-256, and unmodified model_state_dict; optimizer_state_dict omitted",
+      "scientific_equivalence": "Every model tensor is copied without dtype conversion or numerical modification and is loaded with strict=True."
+    }
+  },
+  "official_source": {
+    "github_codeload_archive_sha256": "1555fd09ef0b4f99243f5484009d112a9202003638fee37c466aad3db2a908ff",
+    "rulstm_codeload_archive_sha256": "2ef89063338cfcd0bdffe9c77d3cbd5ce97ede1db3416cd0f28aed35557df289",
+    "config_relative_path": "vendor/TeSTra/configs/EK100/TESTRA/testra_long_64_work_5_anti_2_kinetics_2x_mixup_v+n_eql_decay_0.9.yaml",
+    "config_sha256": "7a50711b1bbde5273a33951c54b9f50b82018cb2a595cb2d14a426a3eb23b21e",
+    "data_info_sha256": "f7d3c808f0c00a55a4f388194dde98bfade2ccecc57add18a3400ff9c882cb38"
+  },
+  "dataset": {
+    "name": "EPIC-KITCHENS-100",
+    "feature_rate_hz": 4,
+    "official_train_sessions": 495,
+    "official_validation_sessions": 138,
+    "split_source": "vendor/TeSTra/data/data_info.json",
+    "evaluation_cluster": "official validation video",
+    "no_training_or_finetuning": true
+  },
+  "inputs": {
+    "rgb_subdir": "rgb_kinetics_bninception",
+    "flow_subdir": "flow_kinetics_bninception",
+    "verb_target_subdir": "verb_perframe",
+    "rgb_dimension": 1024,
+    "flow_dimension": 1024,
+    "official_feature_ids": {
+      "rgb": "1yHm_kOk5gTnYesl_hTld2uT_awmRJt4O",
+      "flow": "1Kf-3CwSqpQeKRz8sBQr7QDZTHUhL71nZ",
+      "verb_target": "10CGWNLscdq1YdAKOAlx8Y-LfdMrB1zHj"
+    }
+  },
+  "model": {
+    "architecture": "TeSTra long-short memory Transformer",
+    "modalities": [
+      "RGB",
+      "TV-L1 optical flow"
+    ],
+    "verb_classes_including_background": 98,
+    "long_memory_seconds": 64,
+    "long_memory_sample_rate_feature_timesteps": 4,
+    "work_memory_seconds": 5,
+    "work_memory_sample_rate_feature_timesteps": 2,
+    "anticipation_seconds": 2,
+    "anticipation_sample_rate_feature_timesteps": 4,
+    "current_output_definition": "For each window, use verb_logits[work_memory_num_samples - 1], the last decoded token belonging to observed work memory. For the first two interleaved windows, retain each observed work-token output at its own query index. Never use either anticipation token as the current OAD output.",
+    "probability_transform": "softmax over all 98 verb-logit outputs, including background"
+  },
+  "official_reproduction": {
+    "metric": "EK100 overall mean top-5 verb recall",
+    "gate_horizon_seconds": 1.0,
+    "published_verb_percent": 30.8,
+    "tolerance_percentage_points": 0.5,
+    "expected_validation_segments": 9668,
+    "gate_rule": "The checkpoint audit is inadmissible for the paper unless the absolute reproduction error is at most 0.5 percentage point."
+  },
+  "smoothing": {
+    "conditions": [
+      "native",
+      "ema_alpha_0.50",
+      "boxcar_w3"
+    ],
+    "ema_alpha": 0.5,
+    "ema_recursion": "q_t = 0.5 q_(t-1) + 0.5 p_t; q_0 = p_0",
+    "boxcar_window": 3,
+    "boxcar_recursion": "r_t = (p_t + p_(t-1) + p_(t-2))/3 with p_0 left padding",
+    "no_other_alpha_or_window_is_evaluated": true
+  },
+  "metrics": {
+    "aggregate": [
+      "top-1 verb accuracy",
+      "15-bin global ECE",
+      "mean per-video temporal fragmentation index"
+    ],
+    "transition": [
+      "mean transition delay",
+      "missed-transition rate"
+    ],
+    "ece_bins": 15,
+    "transition_horizon_feature_timesteps": 16,
+    "transition_horizon_seconds": 4.0,
+    "clean_transition_rule": "Both adjacent ground-truth timesteps must contain exactly one active verb target.",
+    "transition_window_rule": "Start at the changed label, stop at the next ground-truth transition or after 16 feature timesteps, whichever comes first; a miss contributes delay 16.",
+    "overlap_label_rule": "For aggregate metrics, use argmax of the official verb target; overlap-ambiguous boundaries are excluded only from transition metrics."
+  },
+  "uncertainty": {
+    "method": "paired nonparametric cluster bootstrap",
+    "resampling_unit": "official EK100 validation video",
+    "bootstrap_repetitions": 2000,
+    "bootstrap_seed": 48629,
+    "confidence_interval": "percentile 95%"
+  },
+  "decision_rules": {
+    "accuracy_noninferiority_margin": -0.002,
+    "aggregate_prefers_smoothing": "Accuracy-delta CI lower bound is at least -0.002, ECE-delta CI upper bound is below 0, and TFI-delta CI upper bound is below 0.",
+    "transition_prefers_native": "Delay-delta CI lower bound is above 0 and miss-rate-delta CI lower bound is above 0.",
+    "full_ranking_inversion": "Both aggregate_prefers_smoothing and transition_prefers_native are true for the same fixed smoother.",
+    "failure_policy": "Report a failed or mixed result as a boundary result. Do not change checkpoint, split, class head, smoother, alpha, window, horizon, or seed after observing results."
+  },
+  "paper_role": {
+    "if_integrity_gate_and_replication_pass": "Use TeSTra-EK100 as the modern independently released checkpoint in the main paper and move the linear probe to supplementary material.",
+    "if_integrity_gate_fails": "Do not report the paper-facing smoothing comparison; diagnose only implementation or environment mismatch.",
+    "if_integrity_gate_passes_but_replication_fails": "Report the fixed checkpoint as a scope boundary; do not substitute another modern checkpoint."
+  }
+}
