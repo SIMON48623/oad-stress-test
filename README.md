@@ -10,18 +10,20 @@ The project studies a reliability failure in online action detection: temporal s
 - prototype, linear-probe, causal GRU, and causal TCN predictors;
 - transition delay, missed-transition, calibration, fragmentation, and selective-reliability metrics;
 - THUMOS14 and EPIC-KITCHENS-100 data adapters;
-- frozen analysis protocols, tests, checksums, and processed aggregate statistics;
+- analysis protocols, tests, and processed aggregate statistics;
 - a synthetic-data workflow for installation checks.
 
-The original THUMOS14 analysis package is in [`reproducibility/paper_v1/`](reproducibility/paper_v1/). The expanded audit with a second causal postprocessor and an official TeSTra checkpoint is in [`reproducibility/paper_v2/`](reproducibility/paper_v2/).
+The original THUMOS14 analysis package is in [`reproducibility/paper_v1/`](reproducibility/paper_v1/). The expanded audit with a second causal postprocessor and an official TeSTra checkpoint is in [`reproducibility/paper_v2/`](reproducibility/paper_v2/). The CVPR 2025 CMeRT checkpoint validation is frozen in [`reproducibility/paper_v3/`](reproducibility/paper_v3/).
 
 ## Expanded evidence
 
-The current release separates the main finding from its scope boundary.
+The current release adds a strong recent checkpoint without turning the project into an OAD leaderboard.
 
-- **EMA, alpha = 0.50:** the complete aggregate-versus-transition ranking inversion is reproduced for four predictor-dataset instances, including the independently released TeSTra Laplace checkpoint on the official EPIC-KITCHENS-100 validation split.
-- **Causal boxcar, window = 3:** calibration and fragmentation improve while delay and missed-transition rate worsen in all four instances. Accuracy remains non-inferior for the two THUMOS14 predictors and the independently trained EPIC-KITCHENS-100 GRU, but not for TeSTra. The failed TeSTra accuracy gate is retained as a boundary result.
-- **Official-checkpoint gate:** TeSTra's reported 1 s mean top-5 verb recall is reproduced as 30.770%, compared with the published 30.8%.
+- **EMA, alpha = 0.50:** calibration and fragmentation improve while transition delay and missed-transition rate worsen across five predictor-dataset instances. The original four also improve accuracy and produce complete ranking inversions. CMeRT extends the stability-responsiveness conflict to a strong CVPR 2025 checkpoint, with a 0.35-percentage-point accuracy cost.
+- **Causal boxcar, window = 3:** a finite-memory postprocessor reproduces the conflict across the original four instances, showing that the result is not tied to EMA's recursive tail.
+- **Released checkpoints:** TeSTra reproduces 30.770% 1 s mean top-5 verb recall against the published 30.8%. CMeRT reproduces action-detection mAP 0.73221 and mean anticipation mAP 0.59442 before the output audit.
+
+The CMeRT result closes the strong-model loophole: high published OAD performance does not prevent output smoothing from increasing transition latency. The supported mechanism is output-level temporal inertia: causal smoothing carries probability mass from the preceding class across a boundary.
 
 No checkpoint, third-party feature, target array, probability cache, bootstrap draw array, or manuscript is stored in this repository.
 
@@ -58,12 +60,13 @@ THUMOS14, EPIC-KITCHENS-100, pretrained features, and model artifacts are not re
 
 ## Reproducing the paper analyses
 
-The frozen packages contain the original G1-G4 analyses and the expanded postprocessor/checkpoint audit.
+The versioned packages contain the original analyses and the expanded postprocessor/checkpoint audit.
 
 ```bash
 python -m pip install -r reproducibility/paper_v1/requirements.txt
 python -m pytest -q reproducibility/paper_v1/tests
 python -m pytest -q reproducibility/paper_v2/tests
+python -m pytest -q reproducibility/paper_v3/tests/test_cmert_thumos.py
 ```
 
 A complete model replay additionally requires authorized feature files and, where specified by a protocol, the corresponding checkpoint or frozen prediction sequence. See the README in the relevant reproducibility package.

@@ -1,0 +1,59 @@
+{
+  "protocol_id": "cmert_thumos14_current_output_v1",
+  "frozen_on": "2026-08-25",
+  "model": {
+    "name": "CMeRT",
+    "expanded_name": "Context-Enhanced Memory-Refined Transformer",
+    "architecture_source": "https://github.com/pangzhan27/CMeRT",
+    "checkpoint_epoch": 9,
+    "checkpoint_sha256": "57fd94ed25a2a3d10eb9ee5c654aa7d3560b602efe905090e677778382622718",
+    "strict_state_dict_load": true,
+    "parameter_count": 94685206
+  },
+  "reported_metric_reproduction": {
+    "action_detection_perframe_map_published": 0.73221,
+    "action_detection_perframe_map_reproduced": 0.73221,
+    "mean_anticipation_perframe_map_published": 0.59442,
+    "mean_anticipation_perframe_map_reproduced": 0.59442,
+    "pass": true
+  },
+  "dataset": {
+    "name": "THUMOS14",
+    "split": "official test",
+    "expected_sessions": 213,
+    "classes": 22,
+    "ignored_ambiguous_class_index": 21,
+    "feature_rate_hz": 4.0,
+    "valid_frames": 181642,
+    "clean_transitions": 5253
+  },
+  "inputs": {
+    "rgb_feature_archive_sha256": "aac5d9637008bcd6264e1225ee4082e685bf9675ee3613f3428440f155e85bf8",
+    "flow_feature_archive_sha256": "6581eee0ddc8dbd5ecb2919de2d9947a86ece2edb5f9016f1891e2f5dd967a41",
+    "target_archive_sha256": "6cabd9508852620ea17dda2bce4f163b5cd121e602bcc09554c6d18ce67b88b9"
+  },
+  "postprocessors": {
+    "native": {},
+    "ema": {"alpha": 0.5, "causal": true},
+    "boxcar": {"window": 3, "causal": true}
+  },
+  "metrics": {
+    "ece_bins": 15,
+    "transition_horizon_feature_timesteps": 16,
+    "transition_horizon_seconds": 4.0,
+    "accuracy_noninferiority_margin": -0.002
+  },
+  "inference": {
+    "bootstrap_repetitions": 2000,
+    "bootstrap_seed": 48629,
+    "resampling_unit": "official THUMOS14 test video",
+    "parameter_search_after_observing_results": false
+  },
+  "redistribution": {
+    "checkpoint_in_repository": false,
+    "features_in_repository": false,
+    "targets_in_repository": false,
+    "probability_arrays_in_repository": false,
+    "bootstrap_draw_arrays_in_repository": false
+  }
+}

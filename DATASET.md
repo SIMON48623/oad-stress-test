@@ -28,6 +28,12 @@ python scripts/prepare_data.py --config configs/thumos14.yaml
 
 The frozen paper protocols record the expected conventions and hashes for the experiment inputs. Do not substitute a feature stride or annotation-to-feature conversion without documenting the change.
 
+### CMeRT checkpoint replay
+
+The CMeRT audit in `reproducibility/paper_v3/cmert_thumos/` uses the authors' THUMOS14 architecture and configuration, a hash-pinned epoch-9 checkpoint, and the TeSTra-distributed RGB, TV-L1 flow, and per-frame target arrays expected by CMeRT. The published action-detection and mean-anticipation per-frame mAP values are reproduced as 0.73221 and 0.59442.
+
+Keep the third-party assets outside this repository. Their archive/checkpoint hashes and the 213-session shape contract are recorded in `reproducibility/paper_v3/protocols/cmert_thumos_protocol.json`. Export only the current-time probability vector and matching target vector for each official test video, then run the output-level analysis described in `reproducibility/paper_v3/README.md`.
+
 ## EPIC-KITCHENS-100
 
 Access EPIC-KITCHENS-100 through the [official dataset portal](https://epic-kitchens.github.io/2021). The repository accepts locally prepared target arrays and RGB/flow feature files; use `scripts/inspect_ek100_replication_inputs.py` to verify their shapes and alignment before a run.

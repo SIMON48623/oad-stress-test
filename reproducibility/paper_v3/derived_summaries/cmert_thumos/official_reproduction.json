@@ -1,0 +1,22 @@
+{
+  "model": "CMeRT",
+  "dataset": "THUMOS14",
+  "split": "official test",
+  "checkpoint_epoch": 9,
+  "checkpoint_sha256": "57fd94ed25a2a3d10eb9ee5c654aa7d3560b602efe905090e677778382622718",
+  "strict_state_dict_load": true,
+  "parameter_count": 94685206,
+  "action_detection_perframe_map": 0.73221,
+  "mean_anticipation_perframe_map": 0.59442,
+  "anticipation_perframe_map_by_horizon": [
+    0.69808,
+    0.66600,
+    0.63201,
+    0.60068,
+    0.57333,
+    0.54904,
+    0.52746,
+    0.50875
+  ],
+  "reproduction_status": "exact"
+}
