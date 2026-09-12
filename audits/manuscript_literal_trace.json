@@ -1,0 +1,25 @@
+{
+  "status": "frozen_source_located",
+  "source_path": "reproducibility/paper_v3/derived_summaries/cmert_thumos/bootstrap_deltas.csv",
+  "source_sha256": "f4f253272a0a0d5ed487f34236970df0aca158d4495973e81b3902ff3fd70c3d",
+  "literals": [
+    {
+      "display": -0.0018,
+      "source_exact": -0.0017828539082419478,
+      "metric": "global_ece",
+      "comparison": "boxcar_w3_minus_native"
+    },
+    {
+      "display": 0.9838,
+      "source_exact": 0.9838187702265371,
+      "metric": "mean_transition_delay",
+      "comparison": "boxcar_w3_minus_native"
+    },
+    {
+      "display": 0.0331,
+      "source_exact": 0.033123929183323825,
+      "metric": "missed_transition_rate",
+      "comparison": "boxcar_w3_minus_native"
+    }
+  ]
+}

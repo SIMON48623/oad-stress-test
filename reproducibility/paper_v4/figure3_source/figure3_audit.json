@@ -1,0 +1,25 @@
+{
+  "definition": "Cumulative proportion of all clean transitions recovered by each integer offset; misses are not counted at the 16-timestep horizon.",
+  "horizon_feature_timesteps": 16,
+  "ema_alpha": 0.5,
+  "instances": {
+    "TeSTra": {
+      "transition_count": 10301,
+      "native_mean_delay": 10.064168527327444,
+      "ema_mean_delay": 10.446946898359382,
+      "native_missed_transition_rate": 0.5948936996408116,
+      "ema_missed_transition_rate": 0.6172216289680613,
+      "delay_delta": 0.3827783710319377,
+      "miss_rate_delta": 0.022327929327249696
+    },
+    "CMeRT": {
+      "transition_count": 5253,
+      "native_mean_delay": 2.9889586902722254,
+      "ema_mean_delay": 3.8189605939463163,
+      "native_missed_transition_rate": 0.09841995050447364,
+      "ema_missed_transition_rate": 0.13192461450599657,
+      "delay_delta": 0.8300019036740909,
+      "miss_rate_delta": 0.03350466400152294
+    }
+  }
+}

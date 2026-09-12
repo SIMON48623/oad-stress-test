@@ -1,0 +1,22 @@
+{
+  "recovery_date": "2026-09-12",
+  "status": "exact_copy_from_preexisting_work_area",
+  "files": {
+    "figure3_transition_recovery.csv": {
+      "source_path": "work/conference_master/figure3_transition_recovery.csv",
+      "source_sha256": "0fdcd9ef676b2cfefad0d37116c9087a866160350e717e28b7a09b7f99b6ecd7",
+      "repository_sha256": "0fdcd9ef676b2cfefad0d37116c9087a866160350e717e28b7a09b7f99b6ecd7",
+      "data_rows": 64
+    },
+    "figure3_audit.json": {
+      "source_path": "work/conference_master/figure3_audit.json",
+      "source_sha256": "366464c2eca2d12bdb8c28c37d3c97dc0f9c16b5d0ca029b1002f3e6a0adc380",
+      "repository_sha256": "366464c2eca2d12bdb8c28c37d3c97dc0f9c16b5d0ca029b1002f3e6a0adc380"
+    }
+  },
+  "scope": {
+    "instances": ["TeSTra", "CMeRT"],
+    "conditions": ["native", "ema"],
+    "offsets_per_condition": 16
+  }
+}

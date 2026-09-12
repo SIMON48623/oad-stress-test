@@ -1,0 +1,15 @@
+{
+  "source_exact": -0.007333105779500304,
+  "correct_4dp": -0.0073,
+  "manuscript_display": -0.0077,
+  "audit_status": "mismatch_preserved_unresolved",
+  "source_path": "reproducibility/paper_v3/derived_summaries/cmert_thumos/bootstrap_deltas.csv",
+  "source_sha256": "f4f253272a0a0d5ed487f34236970df0aca158d4495973e81b3902ff3fd70c3d",
+  "suspected_origin": -0.007723984541020301,
+  "suspected_origin_status": "unverified_hypothesis_not_an_explanation",
+  "suspected_origin_source": {
+    "record_type": "active_set_audit",
+    "sha256": "defa8a060ad3e172b00ed46ba1008108f716b3503ba1f48d4bc33c6ea186f3f5"
+  },
+  "notes": "The suspected origin is retained only as a lead for later verification. It does not explain, supersede, or resolve the mismatch."
+}

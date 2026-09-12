@@ -1,0 +1,17 @@
+{
+  "status": "implementation_present_primary_evidence_independent",
+  "records": [
+    {
+      "path": "src/oad_stress_test/predictors/causal_tcn.py",
+      "implementation_exists": true,
+      "tests_exist": true,
+      "primary_evidence_dependency": false
+    },
+    {
+      "path": "src/oad_stress_test/metrics/selective.py",
+      "implementation_exists": true,
+      "tests_exist": true,
+      "primary_evidence_dependency": false
+    }
+  ]
+}
