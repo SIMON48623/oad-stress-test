@@ -125,7 +125,7 @@ Changes:
 
 ## 8. Metadata and integrity checks
 
-Changed: prepared a neutral repository description and topics for the remote repository. No author metadata in `CITATION.cff` is changed.
+Changed: prepared a neutral repository description and topics for the remote repository. The authenticated GitHub plugin verified administrator and push access plus the uploaded branch, but its available operations do not include repository-description or topic mutation; those two remote-homepage fields therefore remain pending. No author metadata in `CITATION.cff` is changed.
 
 Evidence:
 
