@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "instance": "ek100_causal_gru_ema",
+  "predictor": {
+    "family": "causal_gru",
+    "hidden_dim": 128,
+    "num_layers": 1,
+    "dropout": 0.0,
+    "epochs": 20,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0,
+    "chunk_length": 512,
+    "use_class_weights": true,
+    "classes_including_background": 98,
+    "training_seed": 13,
+    "formal_device": "cuda"
+  },
+  "observed_training": {
+    "train_sessions": 500,
+    "train_timesteps": 981347,
+    "training_seconds": 459.8654960691929,
+    "finite_epoch_losses": true
+  },
+  "sources": [
+    {
+      "logical_path": "oad_g9/frozen_protocol.json",
+      "sha256": "a18e212735b33edae19d9c3cdecf6b5f6da2ff669def4e0f48e1dd8a2a0014c2"
+    },
+    {
+      "logical_path": "oad_g9_results/training_log.json",
+      "sha256": "aa9101e09f17c504e2f2a0eab6458832bf6de964110d730da21066cdebbc6540"
+    },
+    {
+      "logical_path": "oad_g9_results/training_checkpoint.json",
+      "sha256": "7521e92cb90e372b54662b13b3664f83ed51545e85937b5b91a912e885d5c806"
+    }
+  ]
+}

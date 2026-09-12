@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "method": "paired_nonparametric_cluster_bootstrap",
+  "repetitions": 2000,
+  "confidence_interval": "two-sided percentile 95%",
+  "frame_level_resampling_forbidden": true,
+  "instances": {
+    "thumos14_causal_gru": {
+      "cluster": "video",
+      "seed": 48623,
+      "source": "reproducibility/paper_v1/protocols/G1_frozen_protocol_sanitized.json"
+    },
+    "thumos14_linear_probe": {
+      "cluster": "video",
+      "seed": 48625,
+      "source": "reproducibility/paper_v1/protocols/G4_frozen_protocol_v2_sanitized.json"
+    },
+    "ek100_causal_gru": {
+      "cluster": "evaluation session/video",
+      "seed": 48627,
+      "source": "external recovery: oad_g9/frozen_protocol.json"
+    },
+    "testra_ek100": {
+      "cluster": "official EK100 validation video",
+      "seed": 48629,
+      "source": "reproducibility/paper_v2/protocols/testra_ek100_protocol.json"
+    },
+    "cmert_thumos14": {
+      "cluster": "official THUMOS14 test video",
+      "seed": 48629,
+      "source": "reproducibility/paper_v3/protocols/cmert_thumos_protocol.json"
+    }
+  }
+}

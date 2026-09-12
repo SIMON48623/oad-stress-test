@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "causality": "predictions and smoothing at timestep t use only current and past inputs",
+  "primary_label_rule": "lowest-index active class; background when no class is active",
+  "active_set_top1_rule": "top-1 is correct when the predicted class belongs to the active label set",
+  "aggregate_accuracy_rule": "argmax prediction equals the deterministic primary label",
+  "clean_transition_rule": "the primary label changes and both adjacent target rows contain exactly one active class",
+  "transition_horizon_feature_timesteps": 16,
+  "transition_window_rule": "start at the changed label and stop before the next true transition or after 16 timesteps, whichever occurs first",
+  "transition_success_rule": "the first top-1 prediction of the new primary label within the transition window sets the delay",
+  "miss_rule": "if the new label is not predicted within the window, count one miss and assign delay 16",
+  "ece_bins": 15,
+  "ema": {
+    "alpha": 0.5,
+    "recursion": "q_t = 0.5*q_(t-1) + 0.5*p_t",
+    "initialization": "q_0 = p_0"
+  },
+  "boxcar": {
+    "window": 3,
+    "causal": true,
+    "left_initialization": "repeat p_0 for unavailable history"
+  }
+}

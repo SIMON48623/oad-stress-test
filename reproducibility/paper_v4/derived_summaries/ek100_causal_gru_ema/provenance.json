@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "recovery": {
+    "date": "2026-09-12",
+    "original_server_root": "/root/autodl-tmp",
+    "local_snapshot_identifier": "server_recovery_20260912",
+    "transfer_status": "complete_local_snapshot_before_repository_work"
+  },
+  "sources": [
+    {
+      "logical_path": "oad_g9/frozen_protocol.json",
+      "bytes": 5187,
+      "sha256": "a18e212735b33edae19d9c3cdecf6b5f6da2ff669def4e0f48e1dd8a2a0014c2"
+    },
+    {
+      "logical_path": "oad_g9/ek100_verb_ema_replication.py",
+      "bytes": 34172,
+      "sha256": "c6b2e922ec26c43d3f9fa84467c2a5ba77cad1bc9a264ad08313a5c585a6913c"
+    },
+    {
+      "logical_path": "oad_g9/run_formal.sh",
+      "bytes": 1274,
+      "sha256": "b053f69b2a3eeec53d47c569ef61cef9feb0635a957f76bfa208941fd69c5797"
+    },
+    {
+      "logical_path": "oad_g9_results/point_estimates.csv",
+      "bytes": 1202,
+      "sha256": "dcbe65d56e9d5907c8ae4cd62406c4337edc5ccb8ec9c309e022d62473d5091e"
+    },
+    {
+      "logical_path": "oad_g9_results/bootstrap_deltas.csv",
+      "bytes": 2928,
+      "sha256": "1db48176e9e369cc7a786e2c027ee6265a584b71d2f016aaa13a8b956e18edf8"
+    },
+    {
+      "logical_path": "oad_g9_results/metadata.json",
+      "bytes": 9613,
+      "sha256": "5bcd13677b202a1a8d0806c17026be2e09716dea3c8de5ef2844104fd7ced433"
+    },
+    {
+      "logical_path": "oad_g9_results/training_log.json",
+      "bytes": 728,
+      "sha256": "aa9101e09f17c504e2f2a0eab6458832bf6de964110d730da21066cdebbc6540"
+    }
+  ],
+  "public_files": [
+    {
+      "path": "point_estimates.csv",
+      "sha256": "40e9d4edec054f975828cd3f97ab231bbca8984c7af106472b27ded754d79b6b",
+      "derivation": "exact row filter: native/clean and ema 0.50/clean"
+    },
+    {
+      "path": "bootstrap_deltas.csv",
+      "sha256": "829fd0ec34f1d7f2d472bcd025c1cef6369c04feb12bc520a815230b40842dba",
+      "derivation": "exact row filter: primary accuracy, global ECE, clean delay, and clean missed-transition rate for ema 0.50 minus native"
+    }
+  ],
+  "excluded_large_artifacts": [
+    {
+      "logical_path": "oad_g9_results/trained_model.pt",
+      "bytes": 3421661,
+      "sha256": "a0acf9bd2a4d6d349aad71f264b63082680f8bc6ec534aff2c22e453d7451123",
+      "repository_status": "excluded_by_publication_policy"
+    },
+    {
+      "logical_path": "oad_g9_results/frozen_predictions.npz",
+      "bytes": 106246917,
+      "sha256": "e9e2ccaf00ad689618846cee0b2b5a3241c71cc017ff6673be4935b9ce4e0ffc",
+      "repository_status": "excluded_by_publication_policy"
+    },
+    {
+      "logical_path": "oad_g9_results/bootstrap_samples.npz",
+      "bytes": 245118,
+      "sha256": "24893bf30eebe66913f5619f0ea60e312832a047ffe19541c63056f656db2f04",
+      "repository_status": "excluded_by_publication_policy"
+    }
+  ],
+  "formal_run_log_checksum_incident": {
+    "status": "preserved_known_mismatch",
+    "logical_path": "oad_g9_results/formal_run.log",
+    "bytes_after_run": 597,
+    "sha256_declared_in_source_checksum_file": "de52458d84bf31741c2b8b7576c3e1b4fbeff73635a413b955c17c151ac317d9",
+    "sha256_observed_after_recovery": "d50b25969aba8e481c7f5010c3570cda4938e407fb139919722f04713a7d3392",
+    "located_cause": "run_formal.sh computes SHA256SUMS while stdout is still appended to formal_run.log through tee, then emits FORMAL_G9_COMPLETE after the digest was taken",
+    "interpretation": "export-order checksum defect; the log mismatch is retained and is not used to change any result value"
+  }
+}

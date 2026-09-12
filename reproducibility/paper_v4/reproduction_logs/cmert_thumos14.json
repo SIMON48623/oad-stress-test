@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "status": "published_metrics_reproduced_exactly",
+  "metrics_percent": {
+    "action_detection_perframe_map": 73.221,
+    "mean_anticipation_perframe_map": 59.442
+  },
+  "source_fraction_values": {
+    "action_detection_perframe_map": 0.73221,
+    "mean_anticipation_perframe_map": 0.59442
+  },
+  "sample_counts": {
+    "official_test_videos": 213,
+    "valid_output_timesteps": 181642,
+    "clean_transitions": 5253
+  },
+  "sources": [
+    {
+      "path": "reproducibility/paper_v3/derived_summaries/cmert_thumos/official_reproduction.json",
+      "sha256": "1001c90ba015ca3ea9d3968c852b367d5cea716b522299b64b97f6ccd5640efa"
+    },
+    {
+      "path": "reproducibility/paper_v3/derived_summaries/cmert_thumos/point_estimates.csv",
+      "sha256": "a42a96abeb062d48e986b1b437a8d600c599d1d7076dc049ccca55c261404394"
+    }
+  ]
+}

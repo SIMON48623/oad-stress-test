@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "status": "published_metric_reproduced",
+  "metric": "overall_mean_top5_verb_recall_at_1_second_percent",
+  "reproduced_value": 30.76995422935509,
+  "published_display_value": 30.8,
+  "absolute_error_percentage_points": 0.030045770644910874,
+  "sample_counts": {
+    "evaluation_sequences": 138,
+    "output_timesteps": 189943,
+    "clean_transitions": 10301,
+    "validation_segments": 9668,
+    "early_segments_scored_as_uniform": 73
+  },
+  "sources": [
+    {
+      "path": "reproducibility/paper_v2/derived_summaries/testra_ek100/official_reproduction.json",
+      "sha256": "fe54422fc679b8c64de624ccfa4a082f9c52c9ed4283bbd238eecfb7d3425c88"
+    },
+    {
+      "path": "reproducibility/paper_v2/derived_summaries/testra_ek100/point_estimates.csv",
+      "sha256": "f1623d8bb605e60295e303bfe9afd9c33b7ef5174b602783a134fde3f641109c"
+    }
+  ]
+}
