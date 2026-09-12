@@ -55,7 +55,7 @@ recovered bootstrap_samples.npz sha256 24893bf30eebe66913f5619f0ea60e312832a047f
 
 - [ ] **Step 2: Copy only manuscript-facing recovered rows**
 
-Use `apply_patch` to reproduce the source CSV text exactly for `point_estimates.csv`. For `bootstrap_deltas.csv`, include only `ema_0.50_minus_raw` rows for primary accuracy, global ECE, clean delay, and clean missed-transition rate; preserve every selected decimal exactly and record that this is a row-filtered copy in provenance. Do not include alpha 0.25, TFI, switch counts, all-transition rows, leave-one-out rows, or bootstrap samples in the main package.
+Use `apply_patch` to copy the `native/clean` and `EMA 0.50/clean` point-estimate rows exactly. For `bootstrap_deltas.csv`, include only `ema_0.50_minus_raw` rows for primary accuracy, global ECE, clean delay, and clean missed-transition rate. Preserve every selected decimal exactly and record both files as row-filtered copies in provenance. Do not include alpha 0.25, TFI, switch counts, all-transition rows, leave-one-out rows, or bootstrap samples in the main package.
 
 - [ ] **Step 3: Write recovery provenance**
 
@@ -78,9 +78,9 @@ The TeSTra record reports `30.76995422935509`, 138 sequences, 189943 timesteps, 
 
 Record the THUMOS14 211-video split digest and excluded IDs `video_test_0000270` and `video_test_0001292`; record CMeRT's 213-video official split; record the recovered EK100 500/133 split, 981347 training timesteps, 284171 evaluation timesteps, 21890 primary transitions, and 16362 clean transitions. Include source-declared counts for the five manuscript instances and explicit `not_reported_in_frozen_source` values where a count is absent.
 
-- [ ] **Step 6: Verify source equality and selected rows**
+- [ ] **Step 6: Verify exact selected rows**
 
-Run a PowerShell hash comparison for the full copied point-estimate file and a CSV row comparison for selected bootstrap rows. Expected: point-estimate digest equals `dcbe65...d5091e`; every public bootstrap row has an exact matching source row.
+Run CSV row comparisons for both filtered public files. Expected: every public point-estimate and bootstrap row has an exact matching source row; the provenance records `dcbe65...d5091e` as the source point-estimate digest rather than incorrectly claiming it as the filtered output digest.
 
 - [ ] **Step 7: Commit evidence package**
 
