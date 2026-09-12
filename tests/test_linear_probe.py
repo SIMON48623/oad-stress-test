@@ -3,12 +3,13 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from _dense_policy import DenseObservationPolicy
 from oad_stress_test.config import load_config
 from oad_stress_test.datasets.schema import VideoSequence
 from oad_stress_test.evaluators.streaming import CausalStreamingEvaluator
 from oad_stress_test.metrics.summary import summarize_log
 from oad_stress_test.models.linear_probe import LinearProbeClassifier
-from oad_stress_test.utils.factory import make_classifier, make_datasets, make_policy
+from oad_stress_test.utils.factory import make_classifier, make_datasets
 
 
 def _write_split(path, video_ids):
@@ -101,7 +102,7 @@ def test_linear_probe_fit_uses_train_and_evaluation_uses_test(tmp_path):
     assert 2 not in clf.observed_classes_
 
     video = test.load_video("test_video")
-    policy = make_policy("uniform", clf)
+    policy = DenseObservationPolicy(clf)
     logs = CausalStreamingEvaluator().evaluate_video(video, policy=policy, budget=1.0)
 
     assert logs["video_id"].unique().tolist() == ["test_video"]
@@ -252,8 +253,8 @@ def test_classifier_cache_preserves_prediction_shape_and_score_columns(tmp_path)
     cached = make_classifier(cfg, train, **kwargs)
     video = test.load_video("test_video")
     evaluator = CausalStreamingEvaluator()
-    first_logs = evaluator.evaluate_video(video, policy=make_policy("uniform", first), budget=1.0)
-    cached_logs = evaluator.evaluate_video(video, policy=make_policy("uniform", cached), budget=1.0)
+    first_logs = evaluator.evaluate_video(video, policy=DenseObservationPolicy(first), budget=1.0)
+    cached_logs = evaluator.evaluate_video(video, policy=DenseObservationPolicy(cached), budget=1.0)
     score_cols = [f"score_class_{class_id}" for class_id in range(3)]
 
     assert cached.cache_hit_ is True

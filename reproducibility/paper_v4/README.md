@@ -22,7 +22,7 @@ python reproducibility/paper_v4/quick_check.py
 python -m pytest -q reproducibility/paper_v4/tests
 ```
 
-The quick check reports accuracy, expected calibration error, mean transition delay, and missed-transition rate for native and EMA outputs. It uses only in-memory synthetic arrays.
+The quick check reports accuracy, expected calibration error, mean transition delay, and missed-transition rate for native and EMA outputs. It uses only in-memory synthetic arrays with 20 transitions; the EMA changes are approximately `+0.0050` accuracy, `-0.0705` ECE, `+0.8` timestep delay, and `+0.05` missed-transition rate.
 
 ## Evidence rules
 

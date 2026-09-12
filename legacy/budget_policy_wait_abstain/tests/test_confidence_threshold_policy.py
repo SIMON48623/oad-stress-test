@@ -1,8 +1,10 @@
 import numpy as np
 
-from oad_stress_test.policies.confidence import ConfidenceThresholdWaitAbstainPolicy
-from oad_stress_test.policies.confidence import uncertainty_signal
-from oad_stress_test.utils.factory import make_policy
+from legacy.budget_policy_wait_abstain.src.oad_stress_test.policies.confidence import (
+    ConfidenceThresholdWaitAbstainPolicy,
+    uncertainty_signal,
+)
+from legacy.budget_policy_wait_abstain.src.oad_stress_test.utils.policy_factory import make_policy
 
 
 class ToyClassifier:

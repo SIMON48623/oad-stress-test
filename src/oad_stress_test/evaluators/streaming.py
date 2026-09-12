@@ -1,12 +1,27 @@
 from __future__ import annotations
 
-from typing import Dict, Iterable, List
+from typing import Dict, Iterable, List, Protocol
 
 import numpy as np
 import pandas as pd
 
 from oad_stress_test.datasets.schema import VideoSequence
-from oad_stress_test.policies.base import StreamingPolicy
+
+
+class StreamingDecision(Protocol):
+    action_type: str
+    observed: bool
+    prediction: int | None
+    confidence: float
+    scores: np.ndarray | None
+
+
+class StreamingPolicy(Protocol):
+    name: str
+
+    def reset(self, video_id: str, video_length: int, budget: float) -> None: ...
+
+    def step(self, t: int, x_t: np.ndarray) -> StreamingDecision: ...
 
 
 class CausalStreamingEvaluator:

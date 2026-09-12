@@ -1,12 +1,13 @@
 import numpy as np
 import pytest
 
+from _dense_policy import DenseObservationPolicy
 from oad_stress_test.config import load_config
 from oad_stress_test.datasets.schema import VideoSequence
 from oad_stress_test.evaluators.streaming import CausalStreamingEvaluator
 from oad_stress_test.metrics.summary import summarize_log
 from oad_stress_test.models.causal_tcn import CausalTCNClassifier, torch
-from oad_stress_test.utils.factory import make_classifier, make_datasets, make_policy
+from oad_stress_test.utils.factory import make_classifier, make_datasets
 
 
 pytestmark = pytest.mark.skipif(torch is None, reason="causal_tcn requires torch")
@@ -138,7 +139,7 @@ def test_factory_constructs_causal_tcn_and_evaluator_keeps_scores(tmp_path):
     )
     logs = CausalStreamingEvaluator().evaluate_video(
         test_dataset.load_video("test_video"),
-        policy=make_policy("uniform", clf),
+        policy=DenseObservationPolicy(clf),
         budget=1.0,
     )
     summary = summarize_log(logs, background_label=0, train_positive_counts=clf.sampling_seen_counts_)

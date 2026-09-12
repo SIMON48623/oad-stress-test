@@ -1,16 +1,21 @@
 import numpy as np
 
+from _dense_policy import Decision
 from oad_stress_test.datasets.schema import VideoSequence
 from oad_stress_test.evaluators.streaming import CausalStreamingEvaluator
-from oad_stress_test.policies.base import Decision, StreamingPolicy
 
 
-class FutureProbePolicy(StreamingPolicy):
+class FutureProbePolicy:
     name = "future_probe"
 
     def __init__(self):
         self.future_reads = []
         self.writeable_flags = []
+
+    def reset(self, video_id, video_length, budget):
+        self.video_id = video_id
+        self.video_length = video_length
+        self.budget = budget
 
     def step(self, t, x_t):
         self.writeable_flags.append(bool(x_t.flags.writeable))

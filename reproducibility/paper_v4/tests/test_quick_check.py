@@ -6,6 +6,7 @@ from pathlib import Path
 import subprocess
 import sys
 
+import numpy as np
 import pytest
 
 
@@ -65,3 +66,17 @@ def test_cli_prints_json_without_writing_files(tmp_path):
     payload = json.loads(completed.stdout)
     assert set(payload) == {"native", "ema_alpha_0.50"}
     assert list(tmp_path.iterdir()) == []
+
+
+def test_synthetic_design_matches_the_frozen_transition_effect_scale():
+    quick_check = _load_quick_check()
+    labels, _ = quick_check._synthetic_inputs()
+    result = quick_check.run_quick_check()
+    native = result["native"]
+    ema = result["ema_alpha_0.50"]
+
+    assert np.count_nonzero(labels[1:] != labels[:-1]) == 20
+    assert ema["accuracy"] - native["accuracy"] == pytest.approx(0.004987531172069848)
+    assert ema["ece"] - native["ece"] == pytest.approx(-0.07049772133210579)
+    assert ema["mean_transition_delay"] - native["mean_transition_delay"] == pytest.approx(0.8)
+    assert ema["missed_transition_rate"] - native["missed_transition_rate"] == pytest.approx(0.05)

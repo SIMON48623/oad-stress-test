@@ -1,16 +1,21 @@
 import numpy as np
 import pytest
 
+from _dense_policy import Decision
 from oad_stress_test.datasets.schema import VideoSequence
 from oad_stress_test.evaluators.streaming import CausalStreamingEvaluator
-from oad_stress_test.policies.base import Decision, StreamingPolicy
 
 
-class SpyPolicy(StreamingPolicy):
+class SpyPolicy:
     name = "spy"
 
     def __init__(self):
         self.seen = []
+
+    def reset(self, video_id, video_length, budget):
+        self.video_id = video_id
+        self.video_length = video_length
+        self.budget = budget
 
     def step(self, t, x_t):
         self.seen.append((t, x_t.copy()))

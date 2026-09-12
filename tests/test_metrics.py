@@ -2,7 +2,6 @@ import pandas as pd
 import pytest
 
 from oad_stress_test.metrics.basic import action_accuracy, action_precision, action_recall, coverage, summarize_basic
-from oad_stress_test.metrics.budget import degradation_area, degradation_slope, summarize_budget_curve
 from oad_stress_test.metrics.frame_map import average_precision, frame_map, per_class_ap, summarize_frame_map
 from oad_stress_test.metrics.failure import accepted_risk_at_confidence, brier_score, expected_calibration_error, negative_log_likelihood
 from oad_stress_test.metrics.selective import mean_decision_latency, selective_risk, summarize_selective
@@ -100,26 +99,6 @@ def test_dense_predictions_make_stable_observed_and_carried_delays_match():
     assert transition_delays(logs, stable_steps=2) == [1]
     assert observed_transition_delays(logs) == [1]
     assert carried_state_transition_delays(logs, stable_steps=2) == [1]
-
-
-def test_budget_degradation_slope_and_auc_on_toy_summary():
-    summary = pd.DataFrame({
-        "budget": [0.10, 0.25, 0.50, 1.00],
-        "frame_accuracy_on_predicted": [0.40, 0.55, 0.70, 1.00],
-    })
-
-    expected_auc = (
-        (0.25 - 0.10) * (0.40 + 0.55) / 2
-        + (0.50 - 0.25) * (0.55 + 0.70) / 2
-        + (1.00 - 0.50) * (0.70 + 1.00) / 2
-    )
-    expected_slope = (1.00 - 0.40) / (1.00 - 0.10)
-
-    assert degradation_area(summary) == pytest.approx(expected_auc)
-    assert degradation_slope(summary) == pytest.approx(expected_slope)
-    budget_summary = summarize_budget_curve(summary)
-    assert budget_summary["frame_accuracy_on_predicted_budget_auc"] == pytest.approx(expected_auc)
-    assert budget_summary["frame_accuracy_on_predicted_budget_slope"] == pytest.approx(expected_slope)
 
 
 def test_selective_risk_coverage_and_latency_on_toy_logs():

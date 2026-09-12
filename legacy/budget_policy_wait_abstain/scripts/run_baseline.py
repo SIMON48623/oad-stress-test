@@ -18,9 +18,11 @@ from oad_stress_test.utils.jsonl_logger import (
     open_jsonl_writer,
     write_jsonl_row,
 )
-from oad_stress_test.utils.factory import make_classifier, make_datasets, make_policy
+from oad_stress_test.utils.factory import make_classifier, make_datasets
 from oad_stress_test.utils.io import ensure_dir, write_jsonl
 from oad_stress_test.utils.smoke_selection import select_class_overlap_smoke
+
+from legacy.budget_policy_wait_abstain.src.oad_stress_test.utils.policy_factory import make_policy
 
 
 THRESHOLD_SWEEP_POLICIES = {"confidence_threshold", "uncertainty_threshold", "uncertainty_wait_abstain"}

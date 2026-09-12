@@ -60,3 +60,52 @@ def test_metric_protocol_freezes_horizon_and_miss_value_at_16():
 
     assert protocol["transition_horizon_feature_timesteps"] == 16
     assert "assign delay 16" in protocol["miss_rule"]
+
+
+def test_clean_transition_filter_rejects_a_multi_active_post_transition_timestep():
+    runner = _load_testra_runner()
+    labels = np.asarray([0, 0, 1, 1])
+    predictions = labels.copy()
+    active_counts = np.asarray([1, 1, 2, 1])
+
+    result = runner.transition_stats(labels, predictions, active_counts, horizon=16)
+
+    assert result == {"transition_count": 0, "delay_sum": 0.0, "missed_sum": 0.0}
+
+
+def test_transition_window_does_not_accept_an_old_target_prediction_after_the_next_boundary():
+    runner = _load_testra_runner()
+    labels = np.asarray([0, 0, 1, 1, 0, 0])
+    predictions = np.asarray([0, 0, 0, 0, 1, 1])
+    active_counts = np.asarray([1, 1, 1, 1, 2, 1])
+
+    result = runner.transition_stats(labels, predictions, active_counts, horizon=16)
+
+    assert result == {"transition_count": 1, "delay_sum": 16.0, "missed_sum": 1.0}
+
+
+def test_transition_horizon_is_half_open_and_includes_only_offsets_zero_through_fifteen():
+    runner = _load_testra_runner()
+    labels = np.asarray([0, 0] + [1] * 20)
+    active_counts = np.ones_like(labels)
+    hit_at_fifteen = np.zeros_like(labels)
+    hit_at_fifteen[17] = 1
+    hit_at_sixteen = np.zeros_like(labels)
+    hit_at_sixteen[18] = 1
+
+    included = runner.transition_stats(labels, hit_at_fifteen, active_counts, horizon=16)
+    excluded = runner.transition_stats(labels, hit_at_sixteen, active_counts, horizon=16)
+
+    assert included == {"transition_count": 1, "delay_sum": 15.0, "missed_sum": 0.0}
+    assert excluded == {"transition_count": 1, "delay_sum": 16.0, "missed_sum": 1.0}
+
+
+def test_sequence_without_transitions_has_zero_transition_statistics():
+    runner = _load_testra_runner()
+    labels = np.asarray([2, 2, 2, 2])
+    predictions = np.asarray([2, 1, 2, 1])
+    active_counts = np.ones_like(labels)
+
+    result = runner.transition_stats(labels, predictions, active_counts, horizon=16)
+
+    assert result == {"transition_count": 0, "delay_sum": 0.0, "missed_sum": 0.0}

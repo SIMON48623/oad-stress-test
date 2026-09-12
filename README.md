@@ -39,10 +39,12 @@ python reproducibility/paper_v4/quick_check.py
 It prints native and EMA values for accuracy, expected calibration error, mean transition delay, and missed-transition rate. The expected output is:
 
 ```text
-condition  accuracy      ece           mean_transition_delay  missed_transition_rate
-native     0.8333333333  0.2583333333  0.0000000000           0.0000000000
-ema        0.8888888889  0.1712639279  8.0000000000           0.5000000000
+condition       accuracy      ece           mean_transition_delay  missed_transition_rate
+native          0.5087281796  0.1554578017  0.0000000000           0.0000000000
+ema_alpha_0.50  0.5137157107  0.0849600804  0.8000000000           0.0500000000
 ```
+
+The sequence contains 20 ground-truth transitions. Its native-to-EMA changes are approximately `+0.0050` accuracy, `-0.0705` ECE, `+0.8` timestep delay, and `+5` percentage points missed-transition rate, so the toy example illustrates the scale of the frozen result without amplifying it through a two-transition denominator.
 
 ## Primary reproducibility package
 
@@ -83,7 +85,7 @@ tests/                  active unit and pipeline tests
 tools/                  active validation utilities
 ```
 
-The archived budget, policy, and wait/abstain baseline is in [`legacy/budget_policy_wait_abstain/`](legacy/budget_policy_wait_abstain/). It is retained intact for traceability but does not participate in primary conclusions.
+The archived budget, policy, and wait/abstain baseline is in [`legacy/budget_policy_wait_abstain/`](legacy/budget_policy_wait_abstain/). Its files and extracted factory behavior are preserved for traceability, but it does not participate in primary conclusions. The active evaluator now depends on a structural streaming interface rather than importing the archived policy implementation.
 
 ## Research data and artifact policy
 

@@ -67,12 +67,22 @@ def transition_summary(
 
 
 def _synthetic_inputs() -> tuple[np.ndarray, np.ndarray]:
-    labels = np.asarray([0] * 8 + [1] * 2 + [0] * 8, dtype=np.int64)
-    probabilities = np.asarray(
-        [[0.85, 0.15] if label == 0 else [0.45, 0.55] for label in labels],
-        dtype=np.float64,
+    segment_lengths = [20] * 21
+    segment_lengths[10] = 1
+    labels = np.concatenate(
+        [np.full(length, segment_index % 2, dtype=np.int64) for segment_index, length in enumerate(segment_lengths)]
     )
-    probabilities[[2, 5, 14]] = [0.40, 0.60]
+    rng = np.random.default_rng(613)
+    correct_class_probability = np.clip(rng.normal(0.52, 0.20, len(labels)), 0.01, 0.99)
+    boundaries = np.cumsum(segment_lengths)[:-1]
+    for segment_index, boundary in enumerate(boundaries, start=1):
+        correct_class_probability[boundary] = 0.75 if segment_index in {2, 5, 8, 10} else 0.99
+    probabilities = np.column_stack(
+        [
+            np.where(labels == 0, correct_class_probability, 1.0 - correct_class_probability),
+            np.where(labels == 1, correct_class_probability, 1.0 - correct_class_probability),
+        ]
+    )
     return labels, probabilities
 
 
