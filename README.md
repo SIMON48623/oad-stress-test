@@ -1,38 +1,24 @@
-# OAD Stress Test
+# OAD stress-test repository
 
-Official code and reproducibility materials for **When Stability Misleads: Transition-Conditioned Reliability in Causal Video Recognition**.
-
-The project studies a reliability failure in online action detection: temporal smoothing can improve aggregate accuracy, calibration, and apparent stability while delaying or missing action transitions. The contribution is an evaluation protocol and diagnostic analysis rather than a new detector.
+This repository provides causal online action-detection evaluation code, frozen derived summaries, explicit protocols, and audit records for studying the reliability effects of temporal postprocessing. The primary evidence package is versioned separately from earlier releases and exploratory analyses.
 
 ## Contents
 
-- causal streaming evaluation code;
-- prototype, linear-probe, causal GRU, and causal TCN predictors;
-- transition delay, missed-transition, calibration, fragmentation, and selective-reliability metrics;
-- THUMOS14 and EPIC-KITCHENS-100 data adapters;
-- analysis protocols, tests, and processed aggregate statistics;
-- a synthetic-data workflow for installation checks.
+- Causal data adapters and tested predictor implementations for linear and recurrent models.
+- Accuracy, calibration, transition-delay, and missed-transition metrics.
+- Frozen point estimates, clustered-bootstrap deltas, provenance records, and reproduction logs.
+- Protocol tests for active-set top-1 scoring, clean-transition selection, finite transition windows, and missed-transition handling.
+- A byte-preserved source table and audit record for the transition-recovery figure.
+- Earlier published reproducibility packages, extended analyses, and an archived legacy baseline.
 
-The original THUMOS14 analysis package is in [`reproducibility/paper_v1/`](reproducibility/paper_v1/). The expanded audit with a second causal postprocessor and an official TeSTra checkpoint is in [`reproducibility/paper_v2/`](reproducibility/paper_v2/). The CVPR 2025 CMeRT checkpoint validation is frozen in [`reproducibility/paper_v3/`](reproducibility/paper_v3/).
-
-## Expanded evidence
-
-The current release adds a strong recent checkpoint without turning the project into an OAD leaderboard.
-
-- **EMA, alpha = 0.50:** calibration and fragmentation improve while transition delay and missed-transition rate worsen across five predictor-dataset instances. The original four also improve accuracy and produce complete ranking inversions. CMeRT extends the stability-responsiveness conflict to a strong CVPR 2025 checkpoint, with a 0.35-percentage-point accuracy cost.
-- **Causal boxcar, window = 3:** a finite-memory postprocessor reproduces the conflict across the original four instances, showing that the result is not tied to EMA's recursive tail.
-- **Released checkpoints:** TeSTra reproduces 30.770% 1 s mean top-5 verb recall against the published 30.8%. CMeRT reproduces action-detection mAP 0.73221 and mean anticipation mAP 0.59442 before the output audit.
-
-The CMeRT result closes the strong-model loophole: high published OAD performance does not prevent output smoothing from increasing transition latency. The supported mechanism is output-level temporal inertia: causal smoothing carries probability mass from the preceding class across a boundary.
-
-No checkpoint, third-party feature, target array, probability cache, bootstrap draw array, or manuscript is stored in this repository.
+The implementation-scope audit records additional tested modules that exist in the codebase but are not dependencies of the primary evidence chain: [`audits/implementation_scope.json`](audits/implementation_scope.json).
 
 ## Installation
 
 Python 3.9 or later is required.
 
 ```bash
-git clone https://github.com/SIMON48623/oad-stress-test.git
+git clone <repository-url>
 cd oad-stress-test
 python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
@@ -40,59 +26,81 @@ python -m pip install --upgrade pip
 python -m pip install -e ".[dev]"
 ```
 
-PyTorch is optional for the core evaluation package. It is required for the causal GRU and TCN predictors and for model-based manuscript replays.
+PyTorch is optional for the core evaluation and synthetic check. It is required only for model training and tests that exercise torch-backed predictors.
 
 ## Quick check
 
-The following commands use generated synthetic data and do not require a research dataset.
+This deterministic synthetic comparison completes in a few seconds, needs no research dataset, and writes no result files:
 
 ```bash
-python scripts/prepare_dummy_data.py --config configs/dummy.yaml
-python scripts/run_baseline.py --config configs/dummy.yaml --policy uniform --budgets 0.10 0.25 0.50 1.00 --overwrite
-python scripts/run_baseline.py --config configs/dummy.yaml --policy random --budgets 0.10 0.25 0.50 1.00 --overwrite
-python scripts/evaluate.py --results-dir results/dummy --policies uniform random --budgets 0.10 0.25 0.50 1.00 --clean-summary
-python -m pytest -q
+python reproducibility/paper_v4/quick_check.py
 ```
 
-## Research datasets
+It prints native and EMA values for accuracy, expected calibration error, mean transition delay, and missed-transition rate. The expected output is:
 
-THUMOS14, EPIC-KITCHENS-100, pretrained features, and model artifacts are not redistributed. Obtain them from their original providers and follow [`DATASET.md`](DATASET.md) for the expected local layout.
+```text
+condition  accuracy      ece           mean_transition_delay  missed_transition_rate
+native     0.8333333333  0.2583333333  0.0000000000           0.0000000000
+ema        0.8888888889  0.1712639279  8.0000000000           0.5000000000
+```
 
-## Reproducing the paper analyses
+## Primary reproducibility package
 
-The versioned packages contain the original analyses and the expanded postprocessor/checkpoint audit.
+The single-version evidence package is in [`reproducibility/paper_v4/`](reproducibility/paper_v4/). Its checks require only the repository's development dependencies:
 
 ```bash
-python -m pip install -r reproducibility/paper_v1/requirements.txt
-python -m pytest -q reproducibility/paper_v1/tests
-python -m pytest -q reproducibility/paper_v2/tests
-python -m pytest -q reproducibility/paper_v3/tests/test_cmert_thumos.py
+python -m pytest -q reproducibility/paper_v4/tests
 ```
 
-A complete model replay additionally requires authorized feature files and, where specified by a protocol, the corresponding checkpoint or frozen prediction sequence. See the README in the relevant reproducibility package.
+The package includes derived summaries, reproduction logs, split and metric protocols, source data for the transition-recovery figure, discrepancy audits, tests, and a complete checksum manifest. Large checkpoints, frozen probability arrays, and bootstrap draw arrays are intentionally excluded; their source paths, sizes, and SHA-256 digests are recorded in provenance instead.
+
+Earlier versioned packages remain unchanged in [`reproducibility/paper_v1/`](reproducibility/paper_v1/), [`reproducibility/paper_v2/`](reproducibility/paper_v2/), and [`reproducibility/paper_v3/`](reproducibility/paper_v3/). They are retained for historical traceability and are not rewritten by the current package.
+
+## Extended analyses
+
+Temporal flip counts, prediction-switch counts, coefficient 0.25, multi-bin calibration scans, alternate transition horizons, leave-one-video-out checks, and all-transition analyses are indexed in [`reproducibility/extended/`](reproducibility/extended/). They remain available but are outside the primary evidence chain.
+
+## Known discrepancies
+
+Known numerical discrepancies are preserved as audit assets rather than changed to match display text:
+
+- [`reproducibility/paper_v4/audits/cmert_boxcar_accuracy_mismatch.json`](reproducibility/paper_v4/audits/cmert_boxcar_accuracy_mismatch.json) records the frozen accuracy delta, its correct four-decimal rendering, the different displayed value, and an unresolved suspected origin that is explicitly not treated as an explanation.
+- [`audits/manuscript_literal_trace.json`](audits/manuscript_literal_trace.json) records the frozen sources for three literals used by the manuscript-generation path.
+- [`reproducibility/paper_v4/derived_summaries/ek100_causal_gru_ema/provenance.json`](reproducibility/paper_v4/derived_summaries/ek100_causal_gru_ema/provenance.json) localizes the recovered run-log checksum mismatch and preserves both digests.
+
+No value is edited to remove a discrepancy. See [`reproducibility/paper_v4/audits/`](reproducibility/paper_v4/audits/) for the five-instance confidence-interval audit.
 
 ## Repository layout
 
 ```text
-configs/              experiment configurations
-reproducibility/      frozen paper analysis package
-scripts/              preparation, training, evaluation, and plotting entry points
-src/oad_stress_test/  installable Python package
-tests/                unit and pipeline tests
-tools/                transition and reliability analysis utilities
+audits/                 repository-level scope and source-trace audits
+docs/                   repository design and implementation records
+legacy/                 preserved baseline from a separate research line
+reproducibility/        versioned evidence packages and extended-analysis index
+scripts/                active data preparation and replay entry points
+src/oad_stress_test/    installable Python package
+tests/                  active unit and pipeline tests
+tools/                  active validation utilities
 ```
 
-## Scope
+The archived budget, policy, and wait/abstain baseline is in [`legacy/budget_policy_wait_abstain/`](legacy/budget_policy_wait_abstain/). It is retained intact for traceability but does not participate in primary conclusions.
 
-1. Every online decision is causal: no future feature, label, or prediction is available at time step `t`.
-2. The reported resource constraint is a feature-level observation or inference budget, not a hardware-deployment claim.
-3. Wait and abstain policies and lightweight predictors are diagnostic baselines, not state-of-the-art methods.
-4. Aggregate statistics in this repository are released for audit; third-party source data remain governed by their original terms.
+## Research data and artifact policy
 
-## Citation
+Research datasets, third-party features, checkpoints, frozen prediction caches, and bootstrap draw arrays are not redistributed. Obtain datasets from their original providers and follow [`DATASET.md`](DATASET.md) for local layout guidance. The repository publishes derived summaries and cryptographic provenance for excluded large artifacts.
 
-Use the metadata in [`CITATION.cff`](CITATION.cff). The article DOI will be added after publication.
+The ignore rules exclude common data and model formats from accidental commits. The versioned CSV and JSON evidence records are intentionally trackable.
 
-## License
+## Testing and continuous integration
 
-Original source code is released under the [MIT License](LICENSE). Third-party datasets, annotations, features, and model artifacts are not covered by this licence.
+Run the active suite with:
+
+```bash
+python -m pytest -q
+```
+
+The continuous-integration workflow executes this pytest command on supported Python versions. Archived legacy tests are preserved under `legacy/` and excluded from default discovery.
+
+## Citation and license
+
+Use the unchanged author metadata in [`CITATION.cff`](CITATION.cff). Original source code is released under the [MIT License](LICENSE). Third-party datasets, annotations, features, and model artifacts are not covered by this license.
