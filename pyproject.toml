@@ -40,3 +40,6 @@ Issues = "https://github.com/SIMON48623/oad-stress-test/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+norecursedirs = ["legacy"]
