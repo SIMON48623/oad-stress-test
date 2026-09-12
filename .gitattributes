@@ -3,3 +3,6 @@
 *.bat text eol=crlf
 *.cmd text eol=crlf
 
+# Preserve the locked Figure 3 source bytes, including their original CRLF endings.
+reproducibility/paper_v4/figure3_source/figure3_transition_recovery.csv -text
+reproducibility/paper_v4/figure3_source/figure3_audit.json -text
