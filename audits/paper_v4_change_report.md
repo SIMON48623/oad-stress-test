@@ -112,7 +112,14 @@ Baseline: 148 tests passed before this branch.
 Changes:
 
 - Added 13 primary-package tests: 3 quick-check tests, 4 metric-protocol tests, 2 five-instance boxcar CI tests, and 4 package-integrity tests.
-- Archived 7 legacy test files containing 46 collected tests and excluded `legacy/` from default discovery.
+- Archived 7 legacy test files containing 46 collected tests and excluded `legacy/` from default discovery:
+  - `test_bootstrap_transition_misalignment.py`: 7
+  - `test_evaluate.py`: 3
+  - `test_per_frame_logging.py`: 5
+  - `test_reliability_ladder.py`: 14
+  - `test_run_baseline_threshold_sweep.py`: 2
+  - `test_shift_plumbing.py`: 5
+  - `test_transition_misalignment_analyzer.py`: 10
 - Net change: `+13 - 46 = -33` tests.
 - Final active suite: `115 passed`, exactly `148 - 33`.
 
